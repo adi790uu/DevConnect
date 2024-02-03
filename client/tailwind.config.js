@@ -13,7 +13,7 @@ export default {
     },
   },
   daisyui: {
-    themes: ["dark"],
+    themes: ["garden"],
   },
   plugins: [require("daisyui")],
 };
