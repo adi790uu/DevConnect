@@ -1,12 +1,12 @@
-const Modal = () => {
+const Modal = ({ name }) => {
   return (
     <>
       <button
-        className="btn"
+        className="btn mr-5 border-stone-700 font-bold tracking-wide bg-transparent shadow-md outline-none"
         //@ts-ignore
         onClick={() => document.getElementById("my_modal_1").showModal()}
       >
-        open modal
+        {name}
       </button>
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
