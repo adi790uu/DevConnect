@@ -1,4 +1,4 @@
-const Modal = ({ name }) => {
+const Modal = ({ name }: { name: String }) => {
   return (
     <>
       <button
@@ -10,15 +10,25 @@ const Modal = ({ name }) => {
       </button>
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn">Close</button>
-            </form>
-          </div>
+          <form method="dialog" className=" flex flex-col">
+            <div className="label">
+              <span className="label-text">Username</span>
+            </div>
+            <input
+              type="text"
+              placeholder="Type here"
+              className="input input-bordered w-full  my-2 outline-none border-none"
+            />
+            <div className="label">
+              <span className="label-text">Password</span>
+            </div>
+            <input
+              type="text"
+              placeholder="Type here"
+              className="input input-bordered w-full  my-2 outline-none border-none"
+            />
+            <button className="btn my-2">Close</button>
+          </form>
         </div>
       </dialog>
     </>
