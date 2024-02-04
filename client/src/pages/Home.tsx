@@ -3,18 +3,18 @@ import Homeimg from "../assets/pic1.jpg";
 const Home = () => {
   const [activeTab, setActiveTab] = useState(1);
   console.log(activeTab);
-
+  //@ts-ignore
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
 
   return (
     <div className="min-h-screen">
-      <div className="flex  my-8 w-3/4 justify-center items-center m-auto">
+      <div className="flex  my-8 w-3/4 justify-center items-center m-auto bg-gray-300 rounded-lg border-2 border-slate-700">
         <img src={Homeimg} alt="" className="w-96 h-96 rounded-lg" />
 
-        <p className="ml-6 prose text-justify tracking-wide text-lg">
-          <span className="text-3xl font-bold bg-gradient-to-r from-[#7F7FD5] via-[#86A8E7] to-[#91EAE4] text-transparent bg-clip-text">
+        <p className="ml-6 prose text-justify tracking-wide text-lg p-4 rounded-lg">
+          <span className="text-3xl font-bold text-slate-700 text-transparent bg-clip-text">
             DevConnect
           </span>{" "}
           is an innovative live code collaboration website that brings
@@ -33,11 +33,11 @@ const Home = () => {
           vibrant coding ecosystem.
         </p>
       </div>
-      <div className="w-full flex flex-col items-center justify-center">
+      <div className="w-full flex flex-col items-center justify-center mt-14">
         <div className="mt-5 w-full flex flex-col justify-center items-center">
           <div className="flex mb-5 w-3/4 justify-center">
             <button
-              className={`glass text-xl tracking-wide w-1/4 mr-1 hover:bg-gray-300 rounded-sm font-extralight`}
+              className={`glass text-xl tracking-wide w-1/4 mr-2 hover:bg-gray-300 rounded-sm font-extralight`}
               onClick={() => handleTabClick(1)}
             >
               Join Session
@@ -49,8 +49,24 @@ const Home = () => {
               Create Session
             </button>
           </div>
-          <div className="">
-            {activeTab === 1 && <div>Tab 1 content</div>}
+          <div className="w-1/4 font-body tracking-wide">
+            {activeTab === 1 && (
+              <div className="">
+                <div className="label">
+                  <span className="label-text text-lg">SessionId</span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Enter sessionId"
+                  className="p-4 rounded-lg border-2 border-slate-700 w-full outline-none text-black placeholder:text-slate-700"
+                />
+                <div className="w-full flex justify-center mt-4">
+                  <button className="btn btn-wide glass bg-green-700 text-slate-100 text-lg">
+                    Join!
+                  </button>
+                </div>
+              </div>
+            )}
             {activeTab === 2 && <div>Tab 2 content</div>}
           </div>
         </div>
