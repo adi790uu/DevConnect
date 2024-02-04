@@ -1,8 +1,9 @@
 import { useState } from "react";
-import Modal from "./Modal";
+import LoginModal from "./LoginModal";
+import SignUpModal from "./SignUpModal";
 
 const Navbar = () => {
-  const [auth, isAuth] = useState(true);
+  const [auth, setAuth] = useState(true);
 
   return (
     <div className="navbar p-5 shadow-xl bg-base-100 w-full">
@@ -11,9 +12,9 @@ const Navbar = () => {
       </div>
       <div className="flex-none">
         {auth ? (
-          <div>
-            <Modal name={`Login`} />
-            <Modal name={`SignUp`} />
+          <div className="">
+            <LoginModal />
+            <SignUpModal />
           </div>
         ) : (
           <div className="dropdown dropdown-end">

@@ -1,33 +1,37 @@
-const Modal = ({ name }: { name: String }) => {
+const LoginModal = () => {
   return (
     <>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
       <button
         className="btn mr-5 border-stone-700 font-bold tracking-wide bg-transparent shadow-md outline-none"
         //@ts-ignore
         onClick={() => document.getElementById("my_modal_1").showModal()}
       >
-        {name}
+        Login
       </button>
       <dialog id="my_modal_1" className="modal">
         <div className="modal-box">
-          <form method="dialog" className=" flex flex-col">
+          <form method="dialog" className=" flex flex-col tracking-wide">
+            <p className="text-center text-2xl font-semibold font-sans my-4">
+              Login
+            </p>
             <div className="label">
               <span className="label-text">Username</span>
             </div>
             <input
               type="text"
-              placeholder="Type here"
-              className="input input-bordered w-full  my-2 outline-none border-none"
+              placeholder="Enter username"
+              className="input input-bordered w-full outline-none border-2"
             />
             <div className="label">
               <span className="label-text">Password</span>
             </div>
             <input
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered w-full  my-2 outline-none border-none"
+              type="password"
+              placeholder="Enter password"
+              className="input input-bordered w-full outline-none border-2"
             />
-            <button className="btn my-2">Close</button>
+            <button className="btn glass my-4">Login</button>
           </form>
         </div>
       </dialog>
@@ -35,4 +39,4 @@ const Modal = ({ name }: { name: String }) => {
   );
 };
 
-export default Modal;
+export default LoginModal;
