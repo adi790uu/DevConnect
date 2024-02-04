@@ -61,7 +61,7 @@ const Home = () => {
                   className="p-4 rounded-lg border-2 border-slate-700 w-full outline-none text-black placeholder:text-slate-700"
                 />
                 <div className="w-full flex justify-center mt-4">
-                  <button className="btn btn-wide glass bg-green-700 text-slate-100 text-lg">
+                  <button className="btn btn-wide glass bg-green-700 text-slate-100 text-lg hover:bg-green-600">
                     Join!
                   </button>
                 </div>
@@ -82,7 +82,7 @@ const Home = () => {
                   style={{ resize: "none" }}
                 />
                 <div className="w-full flex justify-center mt-4">
-                  <button className="btn btn-wide glass bg-green-700 text-slate-100 text-lg">
+                  <button className="btn btn-wide glass bg-green-700 text-slate-100 text-lg hover:bg-green-600">
                     Generate SessionId
                   </button>
                 </div>
