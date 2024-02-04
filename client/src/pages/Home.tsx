@@ -67,7 +67,27 @@ const Home = () => {
                 </div>
               </div>
             )}
-            {activeTab === 2 && <div>Tab 2 content</div>}
+            {activeTab === 2 && (
+              <div className="mb-4">
+                <div className="label">
+                  <span className="label-text text-lg">
+                    Session Description
+                  </span>
+                </div>
+                <textarea
+                  rows={4}
+                  cols={50}
+                  placeholder="Enter Session Description"
+                  className="p-4 rounded-lg border-2 border-slate-700 w-full outline-none text-black placeholder:text-slate-700"
+                  style={{ resize: "none" }}
+                />
+                <div className="w-full flex justify-center mt-4">
+                  <button className="btn btn-wide glass bg-green-700 text-slate-100 text-lg">
+                    Generate SessionId
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
