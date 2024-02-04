@@ -21,7 +21,7 @@ const LoginModal = () => {
             <input
               type="text"
               placeholder="Enter username"
-              className="input input-bordered w-full outline-none border-2"
+              className="p-3 rounded-lg w-full outline-none border-2  bg-slate-100 border-slate-700"
             />
             <div className="label">
               <span className="label-text">Password</span>
@@ -29,7 +29,7 @@ const LoginModal = () => {
             <input
               type="password"
               placeholder="Enter password"
-              className="input input-bordered w-full outline-none border-2"
+              className="p-3 rounded-lg w-full outline-none border-2  bg-slate-100 border-slate-700"
             />
             <button className="btn glass my-4">Login</button>
           </form>
