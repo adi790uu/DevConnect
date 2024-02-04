@@ -31,7 +31,9 @@ const LoginModal = () => {
               placeholder="Enter password"
               className="p-3 rounded-lg w-full outline-none border-2  bg-slate-100 border-slate-700"
             />
-            <button className="btn glass my-4">Login</button>
+            <button className="btn glass my-4 bg-red-700 text-body text-slate-100 hover:bg-red-600">
+              Login
+            </button>
           </form>
         </div>
       </dialog>
