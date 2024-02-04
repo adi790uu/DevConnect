@@ -10,11 +10,11 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="flex  my-8 w-3/4 justify-center items-center m-auto bg-gray-300 rounded-lg border-2 border-slate-700">
+      <div className="flex flex-col md:flex-row  my-8 w-3/4 justify-center items-center m-auto bg-gray-300 rounded-lg border-2 border-slate-700">
         <img src={Homeimg} alt="" className="w-96 h-96 rounded-lg" />
 
         <p className="ml-6 prose text-justify tracking-wide text-lg p-4 rounded-lg">
-          <span className="text-3xl font-bold text-slate-700 text-transparent bg-clip-text">
+          <span className="text-3xl font-bold text-slate-700 bg-clip-text">
             DevConnect
           </span>{" "}
           is an innovative live code collaboration website that brings
