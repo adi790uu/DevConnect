@@ -32,8 +32,12 @@ const ChatArea: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-yellow-50">
-      <div className="flex-1 overflow-y-auto p-4">
+    <div className="flex flex-col min-h-screen bg-transparent pr-2">
+      <div className="w-full bg-white flex p-2 rounded-md">Username</div>
+      <div
+        className="flex-1 overflow-y-scroll p-4 bg-yellow-50"
+        style={{ maxHeight: "calc(100vh)" }}
+      >
         {messages.map((message) => (
           <div
             key={message.id}
@@ -42,21 +46,21 @@ const ChatArea: React.FC = () => {
             } mb-2`}
           >
             <div
-              className={`max-w-2/3 rounded-md p-3 ${
+              className={`min-w-48 rounded-md p-3 flex justify-between ${
                 message.sender === "Trafalgar"
                   ? "bg-white text-gray-800"
                   : "bg-green-100 text-green-800"
               }`}
             >
+              <div className="text-sm">{message.text}</div>
               <div className="text-xs text-gray-500 mb-1">
                 {message.timestamp}
               </div>
-              <div className="text-sm">{message.text}</div>
             </div>
           </div>
         ))}
       </div>
-      <div className="p-4 border-t-2 border-gray-300 bg-white">
+      <div className="p-4 border-t-2 border-gray-300 bg-white rounded-b-md">
         <div className="flex items-center space-x-2">
           <input
             type="text"
