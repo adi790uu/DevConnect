@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { IoMdSend } from "react-icons/io";
+import chatbg from "../assets/chatbg.jpg";
 
 interface ChatMessage {
   id: number;
@@ -32,11 +33,16 @@ const ChatArea: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-transparent pr-2">
+    <div className="flex flex-col min-h-screen bg-transparent pr-2" style={{}}>
       <div className="w-full bg-white flex p-2 rounded-md">Username</div>
       <div
-        className="flex-1 overflow-y-scroll p-4 bg-yellow-50"
-        style={{ maxHeight: "calc(100vh)" }}
+        className="flex-1 overflow-y-scroll p-4"
+        style={{
+          maxHeight: "calc(100vh)",
+          backgroundImage: `url(${chatbg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
         {messages.map((message) => (
           <div
