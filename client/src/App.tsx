@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Code from "./pages/Code";
 import Footer from "./components/Footer";
+import Session from "./pages/Session";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/session" element={<Code />}></Route>
+          <Route path="/session" element={<Session />}></Route>
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/profile/:userId" element={<Profile />}></Route>
         </Routes>

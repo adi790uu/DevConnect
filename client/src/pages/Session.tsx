@@ -1,5 +1,11 @@
+import Chatarea from "../components/Chatarea";
+
 const Session = () => {
-  return <div>Session</div>;
+  return (
+    <>
+      <Chatarea />
+    </>
+  );
 };
 
 export default Session;
