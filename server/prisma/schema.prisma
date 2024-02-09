@@ -11,7 +11,47 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  username String 
-  password String
+  id        String   @id @default(uuid())
+  username  String
+  password  String
+  Name      String?
+  sessions  Session[] 
+  salt      String?
+  bio       String?
+  messages Message[]
+}
+
+model Session {
+  id          String   @id @default(uuid())
+  chat        Chat?
+  creator     User     @relation(fields: [creatorId], references: [id])
+  Code     Code?
+  creatorId   String
+  password    String?
+}
+
+model Chat {
+  id        String    @id @default(uuid())
+  messages  Message[]
+  session   Session @relation(fields: [sessionId], references: [id])  
+  sessionId   String @unique
+}
+
+
+model Message {
+  id          String    @id @default(uuid())
+  content     String
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String
+  timestamp   DateTime
+  chat        Chat      @relation(fields: [chatId], references: [id])
+  chatId      String @unique
+}
+
+model Code {
+  id       String   @id @default(uuid())
+  content  String
+  session Session @relation(fields: [sessionId], references: [id])
+  sessionId String @unique
+  authorId String
 }
