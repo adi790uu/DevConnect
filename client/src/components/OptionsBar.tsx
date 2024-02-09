@@ -1,4 +1,6 @@
 import Select from "react-select";
+import { FaPlayCircle } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 
 const OptionsBar = ({
   lang,
@@ -42,30 +44,37 @@ const OptionsBar = ({
         onChange={(e) => setTheme(e.value)}
         placeholder={theme}
       />
-      <button className="run-btn">
-        {/* <img src={playButton} className="image"></img> */}RUN
+      <button className="flex flex-col justify-center items-center bg-transparent font-body tracking-widest">
+        <FaPlayCircle color="dark-green" size={32} />
+        RUN
       </button>
       <button
         onClick={() => {
           clearOutput();
         }}
-        className="clear-btn"
+        className="flex flex-col justify-center items-center font-body tracking-widest"
       >
-        {/* <img src={clearButton} className="image"></img> */}CLEAR
+        <MdDeleteOutline color="red" size={32} />
+        CLEAR
       </button>
-      <div className="flex justify-center items-center">
-        <label className="mr-2 text-white">Font Size</label>
-        <input
-          className=""
-          type="range"
-          min="18"
-          max="30"
-          value={fontSize}
-          step="2"
-          onChange={(e) => {
-            setFontSize(e.target.value);
-          }}
-        />
+      <div className="flex flex-col justify-center items-center">
+        <label className="mr-2 font-body tracking-widest">Font Size</label>
+        <div className="flex">
+          <input
+            className=""
+            type="range"
+            min="18"
+            max="30"
+            value={fontSize}
+            step="2"
+            onChange={(e) => {
+              setFontSize(e.target.value);
+            }}
+          />
+          <p className="p-2 text-body text-sm bg-white ml-1 rounded-md">
+            {fontSize}
+          </p>
+        </div>
       </div>
     </div>
   );

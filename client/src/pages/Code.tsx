@@ -44,18 +44,20 @@ const Code = () => {
         />
         <div className="w-full flex flex-row mt-5 min-h-screen">
           <div className="flex flex-col w-1/2">
-            <h4 className="pl-2 font-extralight mb-1 text-white">Input:</h4>
+            <h4 className="pl-1 font-body tracking-widest mb-1 text-white">
+              Input:
+            </h4>
             <div className="w-full h-1/2">
               <textarea
-                className="w-full h-full rounded-md bg-yellow-50 p-2"
+                className="w-full h-full rounded-md bg-yellow-50 p-2 outline-none border-none font-body text-gray-800"
                 onChange={(e) => setUserInput(e.target.value)}
                 style={{ resize: "none" }}
               ></textarea>
             </div>
-            <h4 className="pl-2 font-extralight mt-1 mb-1 text-white">
+            <h4 className="pl-1 font-body tracking-widest mt-2 mb-1 text-white">
               Output:
             </h4>
-            <div className=" w-full h-[30rem] rounded-md bg-yellow-50">
+            <div className=" w-full h-[30rem] rounded-md bg-yellow-50 font-body text-gray-800 p-2">
               {loading ? (
                 <div className="boxinbox">
                   <div className="spinner2"></div>
@@ -66,7 +68,7 @@ const Code = () => {
             </div>
           </div>
           <div className="flex flex-col w-1/2 ml-2">
-            <p className="mb-1 text-white font-extralight">Chat:</p>
+            <p className="mb-1 text-transparent font-extralight h-6"></p>
             <Session />
           </div>
         </div>
