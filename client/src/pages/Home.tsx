@@ -1,11 +1,43 @@
 import { useState } from "react";
 import Homeimg from "../assets/pic1.jpg";
+import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
+import connector from "../connect";
+
+/* when join is clicked then api call must be made and session id should be used from response and append it to the redirect url*/
+
 const Home = () => {
   const [activeTab, setActiveTab] = useState(1);
+  const [pass, setPass] = useState("");
+  const [desc, setDesc] = useState("");
   console.log(activeTab);
   //@ts-ignore
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
+  };
+
+  const navigate = useNavigate();
+
+  const handleJoin = async () => {
+    const data = {
+      description: desc,
+      sessionPass: pass,
+    };
+    setDesc("");
+    setPass("");
+    const response = await connector.post("/session/create", data);
+    console.log(response);
+    const sessionId = response.data.sessionId;
+    navigate(`/session/${sessionId}`);
+  };
+
+  const generatePass = () => {
+    const password = uuidv4();
+    setPass(password.substring(0, 7).toString());
+  };
+
+  const handleGenerate = () => {
+    generatePass();
   };
 
   return (
@@ -78,12 +110,34 @@ const Home = () => {
                   rows={4}
                   cols={50}
                   placeholder="Enter Session Description"
-                  className="p-4 rounded-lg border-2 border-slate-700 w-full outline-none text-black placeholder:text-slate-700"
+                  className="p-2 rounded-lg border-2 border-slate-700 w-full outline-none text-black placeholder:text-slate-700"
                   style={{ resize: "none" }}
+                  value={desc}
+                  onChange={(e: any) => setDesc(e.target.value)}
                 />
+                <div className="label">
+                  <span className="label-text text-lg">Session Id</span>
+                </div>
+                <div className="w-full flex justify-between">
+                  <input
+                    className="p-2 rounded-md outline-none border-2 placeholder:text-slate-700 border-black text-black shadow-md w-full"
+                    placeholder="Click on Generate"
+                    readOnly
+                    value={pass}
+                  ></input>
+                  <button
+                    onClick={handleGenerate}
+                    className="btn glass text-slate-100 ml-2 text-md flex flex-col bg-blue-900"
+                  >
+                    Generate
+                  </button>
+                </div>
                 <div className="w-full flex justify-center mt-4">
-                  <button className="btn btn-wide glass bg-green-700 text-slate-100 text-lg hover:bg-green-600">
-                    Generate SessionId
+                  <button
+                    onClick={handleJoin}
+                    className="btn btn-wide glass bg-green-700 text-slate-100 text-lg hover:bg-green-600 mt-8"
+                  >
+                    Join!
                   </button>
                 </div>
               </div>
