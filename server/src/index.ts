@@ -1,4 +1,5 @@
 import express from "express";
+const cors = require("cors");
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoute";
@@ -6,6 +7,8 @@ dotenv.config();
 const prisma: PrismaClient = new PrismaClient();
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(cors());
 
 app.use(express.json());
 const connectToDBcheck = async () => {

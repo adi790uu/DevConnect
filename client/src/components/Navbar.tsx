@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
-  const [auth, setAuth] = useState(true);
+  const { auth, toggleAuth } = useAuth();
+  useEffect(() => {
+    const success = localStorage.getItem("success");
+    if (success) {
+      toggleAuth();
+    }
+  }, [auth]);
 
   return (
     <div className="navbar p-5 shadow-xl bg-base-100 w-full">

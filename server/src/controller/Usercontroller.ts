@@ -7,10 +7,13 @@ const prisma: PrismaClient = new PrismaClient();
 const jwtsecret = process.env.JWT_SECRET;
 
 const createuser = async (req: Request, res: Response) => {
+  let success = true;
+  let alreadyExist = false;
   try {
     const { username, password } = req.body;
 
     if (!username || !password) {
+      success = false;
       return res.status(400).json({ message: "Creds not entered" });
     }
     const user = await prisma.user.findFirst({
@@ -18,7 +21,11 @@ const createuser = async (req: Request, res: Response) => {
     });
 
     if (user) {
-      return res.status(500).json({ message: "User name already exist" });
+      alreadyExist = true;
+      return res.status(500).json({
+        message: "User name already exist",
+        alreadyExist: alreadyExist,
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -37,20 +44,29 @@ const createuser = async (req: Request, res: Response) => {
     const token = jwt.sign({ userId: newUser.id }, jwtsecret, {
       expiresIn: "1d",
     });
-    res.json({ newUser, token });
+    res.json({
+      message: "user created succesfully",
+      token: token,
+      success: success,
+      alreadyExist: alreadyExist,
+    });
   } catch (error) {
+    success = false;
     console.error("Error creating user:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error", success: success });
   } finally {
     await prisma.$disconnect();
   }
 };
 
 const login = async (req: Request, res: Response) => {
+  let success = true;
+  let notExist = false;
   try {
     const { username, password } = req.body;
 
     if (!username || !password) {
+      success = false;
       return res.status(400).json({ message: "Creds not entered" });
     }
 
@@ -59,11 +75,13 @@ const login = async (req: Request, res: Response) => {
     });
 
     if (!user) {
+      notExist = true;
       return res.status(500).json({ message: "User does not exist" });
     }
 
     const passwordMatched = await bcrypt.compare(password, user.password);
     if (!passwordMatched) {
+      success = false;
       return res.status(500).json({ message: "invalid creds" });
     }
 
@@ -74,8 +92,14 @@ const login = async (req: Request, res: Response) => {
     const token = jwt.sign({ userId: user.id }, jwtsecret, { expiresIn: "1d" });
 
     console.log(token);
-    res.status(200).json({ message: "login successfull", token: token });
+    res.status(200).json({
+      message: "login successfull",
+      token: token,
+      success: success,
+      notExist: notExist,
+    });
   } catch (error) {
+    success = false;
     console.error("Error during login:", error);
     res.status(500).json({ error: "Internal Server Error" });
   } finally {
