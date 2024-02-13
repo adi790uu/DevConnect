@@ -5,11 +5,13 @@ const createSession = async (req: Request, res: Response) => {
   try {
     const { sessionPassword, sessionDesc } = req.body;
 
+    // console.log(se);
+
     if (!sessionDesc) {
       return res.status(400).json({ message: "Enter Session Description" });
     }
     //@ts-ignore
-    const userId = req.user;
+    const { userId } = req.user;
 
     if (!userId) {
       return res.status(401).json({ error: "User not authenticated" });
@@ -36,7 +38,7 @@ const createSession = async (req: Request, res: Response) => {
 
 const joinSession = async (req: Request, res: Response) => {
   try {
-    const sessionPassword = req.body;
+    const { sessionPassword } = req.body;
 
     if (!sessionPassword) {
       return res.status(400).json({ error: "Session password is required" });

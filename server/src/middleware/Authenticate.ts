@@ -20,7 +20,7 @@ const authenticateUser = async (
 
     const decoded = jwt.verify(
       token,
-      process.env.SECRET_JWT as string
+      process.env.JWT_SECRET as string
     ) as JwtPayload;
 
     req.user = decoded;
