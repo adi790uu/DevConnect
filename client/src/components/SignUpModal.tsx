@@ -16,6 +16,7 @@ const SignUpModal = () => {
     if (response.data.alreadyExist) {
       alert("User already exists");
     }
+    localStorage.setItem("token", response.data.token);
     localStorage.setItem("userid", response.data.userid);
     localStorage.setItem("username", response.data.username);
 
