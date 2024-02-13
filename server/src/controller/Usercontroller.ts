@@ -48,6 +48,7 @@ const createuser = async (req: Request, res: Response) => {
       token: token,
       success: success,
       alreadyExist: alreadyExist,
+      userid: newUser.id,
     });
   } catch (error) {
     success = false;
@@ -96,6 +97,7 @@ const login = async (req: Request, res: Response) => {
       token: token,
       success: success,
       notExist: notExist,
+      userid: user.id,
     });
   } catch (error) {
     success = false;
