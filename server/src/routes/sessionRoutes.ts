@@ -11,4 +11,10 @@ sessionRouter.post(
 );
 sessionRouter.post("/join", authenticateUser, SessionController.joinSession);
 
+sessionRouter.get(
+  "/getmessages",
+  authenticateUser,
+  SessionController.getmessage
+);
+
 export default sessionRouter;

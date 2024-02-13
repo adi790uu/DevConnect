@@ -4,6 +4,7 @@ import Editor from "@monaco-editor/react";
 import ChatArea from "../components/Chatarea";
 import io from "socket.io-client";
 import { useParams } from "react-router-dom";
+import connector from "../connect";
 
 const Code = () => {
   const [userCode, setUserCode] = useState("");
@@ -24,6 +25,14 @@ const Code = () => {
 
   useEffect(() => {
     socket.emit("joinRoom", sessionId);
+    connector
+      .get("/getmessages")
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching messages:", error);
+      });
   }, []);
 
   return (
