@@ -28,7 +28,7 @@ model Session {
   Code     Code?
   description String?
   creatorId   String
-  password    String?
+  password    String @unique
 }
 
 model Chat {

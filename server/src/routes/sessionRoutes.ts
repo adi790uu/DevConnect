@@ -4,7 +4,11 @@ import authenticateUser from "../middleware/Authenticate";
 
 const sessionRouter: Router = express.Router();
 
-sessionRouter.post("/create", SessionController.createSession);
-sessionRouter.post("/join", SessionController.joinSession);
+sessionRouter.post(
+  "/create",
+  authenticateUser,
+  SessionController.createSession
+);
+sessionRouter.post("/join", authenticateUser, SessionController.joinSession);
 
 export default sessionRouter;

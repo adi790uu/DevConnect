@@ -16,7 +16,20 @@ const createSession = async (req: Request, res: Response) => {
   console.log(session);
 };
 
-const joinSession = (req: Request, res: Response) => {};
+const joinSession = async (req: Request, res: Response) => {
+  const sessionPassword = req.body;
+  const sessionExists = await prisma.session.findUnique({
+    where: {
+      password: sessionPassword,
+    },
+  });
+
+  if (sessionExists) {
+    return res
+      .status(200)
+      .json({ success: true, message: "Joining session...." });
+  }
+};
 
 export = {
   createSession,
