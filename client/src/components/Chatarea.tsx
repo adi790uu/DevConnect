@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IoMdSend } from "react-icons/io";
-import chatbg from "../assets/chatbg5.jpg";
+import chatbg from "../assets/chatbg8.jpg";
 import io from "socket.io-client";
 
 interface ChatMessage {
