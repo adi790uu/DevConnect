@@ -17,6 +17,7 @@ const SignUpModal = () => {
       alert("User already exists");
     }
     localStorage.setItem("userid", response.data.userid);
+    localStorage.setItem("username", response.data.username);
 
     if (response.data.success) {
       document.getElementById("my_modal_2").close();

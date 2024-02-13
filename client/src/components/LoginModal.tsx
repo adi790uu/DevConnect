@@ -18,6 +18,7 @@ const LoginModal = () => {
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("success", response.data.success);
     localStorage.setItem("userid", response.data.userid);
+    localStorage.setItem("username", response.data.username);
     if (response.data.success === "true") setAuth(false);
     window.location.href = "/";
     console.log(response.data);
