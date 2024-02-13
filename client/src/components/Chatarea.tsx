@@ -4,22 +4,41 @@ import chatbg from "../assets/chatbg8.jpg";
 import io from "socket.io-client";
 
 interface ChatMessage {
-  id: number;
   sender: string;
   text: string;
   timestamp: string;
 }
 
-const ChatArea: React.FC = () => {
+const ChatArea: React.FC = ({ sessionId }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [newMessage, setNewMessage] = useState("");
+  const [newMessage, setNewMessage] = useState<ChatMessage>({
+    sender: "",
+    text: "",
+    timestamp: "",
+  });
 
   const socket = io("http://localhost:8000");
 
-  const sendMessage = () => {
-    if (newMessage.trim() === "") return;
+  socket.on("message", (data) => {
+    const newMessage: ChatMessage = {
+      sender: data.sender,
+      text: data.message,
+      timestamp: data.time,
+    };
 
-    const data = socket.emit("sendMessage", () => {});
+    setMessages([...messages, newMessage]);
+  });
+
+  const sendMessage = () => {
+    if (newMessage.text.trim() === "") return;
+
+    const data = {
+      userId: localStorage.getItem("userid"),
+      content: newMessage,
+      sessionId: sessionId,
+    };
+
+    socket.emit("sendMessage", data);
   };
 
   return (
@@ -38,9 +57,8 @@ const ChatArea: React.FC = () => {
       >
         {messages.map((message) => (
           <div
-            key={message.id}
             className={`flex ${
-              message.sender === "Trafalgar" ? "justify-start" : "justify-end"
+              message.sender === "" ? "justify-start" : "justify-end"
             } mb-2`}
           >
             <div

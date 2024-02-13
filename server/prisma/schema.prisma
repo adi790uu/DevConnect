@@ -23,30 +23,22 @@ model User {
 
 model Session {
   id          String   @id @default(uuid())
-  chat        Chat?
   creator     User     @relation(fields: [creatorId], references: [id])
   Code     Code?
   description String?
   creatorId   String
   password    String @unique
+  messages Message[]
 }
-
-model Chat {
-  id        String    @id @default(uuid())
-  messages  Message[]
-  session   Session @relation(fields: [sessionId], references: [id])  
-  sessionId   String @unique
-}
-
 
 model Message {
   id          String    @id @default(uuid())
   content     String
   author      User      @relation(fields: [authorId], references: [id])
   authorId    String
-  timestamp   DateTime
-  chat        Chat      @relation(fields: [chatId], references: [id])
-  chatId      String @unique
+  timestamp   DateTime @default(now())
+  session   Session @relation(fields: [sessionId], references: [id])  
+  sessionId   String @unique
 }
 
 model Code {

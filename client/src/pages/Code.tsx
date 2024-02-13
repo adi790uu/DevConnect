@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import OptionsBar from "../components/OptionsBar";
 import Editor from "@monaco-editor/react";
-import Session from "./Session";
+import ChatArea from "../components/Chatarea";
 import io from "socket.io-client";
 import { useParams } from "react-router-dom";
 
@@ -79,7 +79,8 @@ const Code = () => {
           </div>
           <div className="flex flex-col w-1/2 ml-2">
             <p className="mb-1 text-transparent font-extralight h-6"></p>
-            <Session />
+            {/* @ts-ignore */}
+            <ChatArea sessionId={sessionId} />
           </div>
         </div>
       </div>

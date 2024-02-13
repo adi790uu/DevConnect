@@ -6,7 +6,7 @@ import userRouter from "./routes/userRoute";
 import sessionRouter from "./routes/sessionRoutes";
 import { Server } from "socket.io";
 dotenv.config();
-const prisma: PrismaClient = new PrismaClient();
+import prisma from "./config/prisma";
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -41,7 +41,7 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   console.log(`User connected! ${socket.id}`);
-  socket.on("joinRoom", (session) => {
+  socket.on("joinRoom", async (session) => {
     socket.join(session);
   });
 
@@ -50,6 +50,26 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", async (data) => {
-    //content --> message, name
+    //content --> message, userId, sessionId
+    const username = await prisma.user.findUnique({
+      where: {
+        id: data.userId,
+      },
+    });
+    const message = await prisma.message.create({
+      data: {
+        content: data.content,
+        authorId: data.userId,
+        sessionId: data.sessionId,
+      },
+    });
+
+    socket
+      .to(data.sessionId)
+      .emit("message", {
+        message: message.content,
+        time: message.timestamp,
+        sender: username,
+      });
   });
 });
