@@ -4,7 +4,6 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 interface ExtendedRequest extends Request {
   user?: JwtPayload;
 }
-
 const authenticateUser = async (
   req: ExtendedRequest,
   res: Response,
@@ -16,7 +15,10 @@ const authenticateUser = async (
       return res.status(401).json({ message: "Authentication required" });
     }
 
-    const decoded = jwt.verify(token, process.env.SECRET_JWT) as JwtPayload;
+    const decoded = jwt.verify(
+      token,
+      process.env.SECRET_JWT as string
+    ) as JwtPayload;
     req.user = decoded;
     console.log("Token verified successfully:", decoded);
     next();
@@ -26,4 +28,4 @@ const authenticateUser = async (
   }
 };
 
-export = { authenticateUser };
+export default authenticateUser;

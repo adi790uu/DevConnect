@@ -26,6 +26,7 @@ model Session {
   chat        Chat?
   creator     User     @relation(fields: [creatorId], references: [id])
   Code     Code?
+  description String?
   creatorId   String
   password    String?
 }

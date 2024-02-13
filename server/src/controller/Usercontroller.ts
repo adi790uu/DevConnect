@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../config/prisma";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-const prisma: PrismaClient = new PrismaClient();
 const jwtsecret = process.env.JWT_SECRET;
 
 const createuser = async (req: Request, res: Response) => {

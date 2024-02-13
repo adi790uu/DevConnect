@@ -3,6 +3,7 @@ const cors = require("cors");
 import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoute";
+import sessionRouter from "./routes/sessionRoutes";
 dotenv.config();
 const prisma: PrismaClient = new PrismaClient();
 const app = express();
@@ -23,6 +24,7 @@ const connectToDBcheck = async () => {
 connectToDBcheck();
 
 app.use("/api/user", userRouter.userRouter);
+app.use("/api/session", sessionRouter);
 
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
