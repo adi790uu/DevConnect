@@ -3,7 +3,8 @@ import Homeimg from "../assets/pic1.jpg";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
 import connector from "../connect";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 /* when join is clicked then api call must be made and session id should be used from response and append it to the redirect url*/
 
 const Home = () => {
@@ -13,21 +14,36 @@ const Home = () => {
   console.log(activeTab);
   //@ts-ignore
   const handleTabClick = (tabNumber) => {
+    setPass("");
     setActiveTab(tabNumber);
   };
 
   const navigate = useNavigate();
 
-  const handleJoin = async () => {
+  const handleCreate = async () => {
     const data = {
-      description: desc,
-      sessionPass: pass,
+      sessionDesc: desc,
+      sessionPassword: pass,
     };
     setDesc("");
     setPass("");
     const response = await connector.post("/session/create", data);
     console.log(response);
-    const sessionId = response.data.sessionId;
+
+    const sessionId = response.data.session;
+    navigate(`/session/${sessionId}`);
+  };
+
+  const handleJoin = async () => {
+    const data = {
+      sessionPassword: pass,
+    };
+
+    setPass("");
+    const response = await connector.post("/session/join", data);
+    console.log(response);
+
+    const sessionId = response.data.session;
     navigate(`/session/${sessionId}`);
   };
 
@@ -85,15 +101,21 @@ const Home = () => {
             {activeTab === 1 && (
               <div className="">
                 <div className="label">
-                  <span className="label-text text-lg">SessionId</span>
+                  <span className="label-text text-lg">Session Password</span>
                 </div>
                 <input
                   type="text"
-                  placeholder="Enter sessionId"
+                  placeholder="Enter session Password"
                   className="p-4 rounded-lg border-2 border-slate-700 w-full outline-none text-black placeholder:text-slate-700"
+                  onChange={(e) => {
+                    setPass(e.target.value);
+                  }}
                 />
                 <div className="w-full flex justify-center mt-4">
-                  <button className="btn btn-wide glass bg-green-700 text-slate-100 text-lg hover:bg-green-600">
+                  <button
+                    className="btn btn-wide glass bg-green-700 text-slate-100 text-lg hover:bg-green-600"
+                    onClick={handleJoin}
+                  >
                     Join!
                   </button>
                 </div>
@@ -134,7 +156,7 @@ const Home = () => {
                 </div>
                 <div className="w-full flex justify-center mt-4">
                   <button
-                    onClick={handleJoin}
+                    onClick={handleCreate}
                     className="btn btn-wide glass bg-green-700 text-slate-100 text-lg hover:bg-green-600 mt-8"
                   >
                     Join!
@@ -145,6 +167,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
