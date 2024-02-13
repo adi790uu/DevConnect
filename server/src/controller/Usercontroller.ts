@@ -49,6 +49,7 @@ const createuser = async (req: Request, res: Response) => {
       success: success,
       alreadyExist: alreadyExist,
       userid: newUser.id,
+      username: newUser.username,
     });
   } catch (error) {
     success = false;
@@ -98,6 +99,7 @@ const login = async (req: Request, res: Response) => {
       success: success,
       notExist: notExist,
       userid: user.id,
+      username: user.username,
     });
   } catch (error) {
     success = false;
