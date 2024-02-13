@@ -23,17 +23,16 @@ const Code = () => {
     fontSize: fontSize,
   };
 
-  useEffect(() => {
-    socket.emit("joinRoom", sessionId);
-    connector
-      .get("/getmessages")
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching messages:", error);
-      });
-  }, []);
+  socket.on("changedCode", (data) => {
+    console.log(data);
+    setUserCode(data);
+  });
+
+  const handleCodeChange = (newValue) => {
+    console.log(newValue);
+    socket.emit("changeCode", newValue);
+    setUserCode(newValue);
+  };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row min-w-full pt-2 bg-[#1E1E1E] pb-2">
@@ -45,9 +44,8 @@ const Code = () => {
           theme={theme}
           language={lang}
           defaultLanguage="c"
-          onChange={(value) => {
-            setUserCode(value);
-          }}
+          value={userCode}
+          onChange={handleCodeChange}
         />
       </div>
       <div className="flex flex-col w-full ml-2 ">

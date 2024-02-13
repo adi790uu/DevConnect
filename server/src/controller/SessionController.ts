@@ -73,7 +73,13 @@ const getmessage = async (req: Request, res: Response) => {
 
     const session = await prisma.session.findUnique({
       where: { id: sessionId },
-      include: { messages: true },
+      include: {
+        messages: {
+          include: {
+            author: true,
+          },
+        },
+      },
     });
 
     if (!session) {

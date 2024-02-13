@@ -11,13 +11,11 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(
-  cors(
-    cors({
-      origin: "http://localhost:5173", // Allow requests from this origin
-      methods: "GET,POST,PUT,DELETE", // Allowed HTTP methods
-      credentials: true, // Enable CORS with credentials (cookies, authorization headers, etc.)
-    })
-  )
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
 );
 
 app.use(express.json());
@@ -48,17 +46,15 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log(`User connected! ${socket.id}`);
   socket.on("joinRoom", async (session) => {
-    console.log("activated");
-    console.log(session);
     socket.join(session);
   });
 
+  socket.on("changeCode", (data) => {
+    socket.broadcast.emit("changedCode", data);
+  });
+
   socket.on("sendMessage", async (data) => {
-    //content --> message, userId, sessionId
-    // console.log("activated");
-    // console.log(data);
     const username = await prisma.user.findUnique({
       where: {
         id: data.userId,
@@ -73,8 +69,6 @@ io.on("connection", (socket) => {
         sessionId: data.sessionId,
       },
     });
-
-    // console.log(data.sessionId);
 
     const data2 = {
       message: message.content,

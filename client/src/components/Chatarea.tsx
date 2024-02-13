@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import chatbg from "../assets/chatbg8.jpg";
 import io from "socket.io-client";
+import connector from "../connect";
 
 interface ChatMessage {
   sender: string;
@@ -17,6 +18,41 @@ const ChatArea: React.FC = ({ sessionId }) => {
     text: "",
     timestamp: "",
   });
+
+  useEffect(() => {
+    const fetchMessages = () => {
+      const data = { sessionId };
+      let arr = [];
+      connector
+        .post("/session/getmessages", data)
+        .then((response) => {
+          // console.log(response.data);
+          response.data.sessions.map((message) => {
+            const date = new Date(message.timestamp);
+
+            const formattedDate = date.toLocaleString("en-US", {
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+            });
+            const ConstructMessage = {
+              sender: message.author.username,
+              text: message.content,
+              timestamp: formattedDate,
+            };
+            arr.push(ConstructMessage);
+          });
+          //@ts-ignore
+          setMessages([...arr]);
+        })
+        .catch((error) => {
+          console.error("Error fetching messages:", error);
+        });
+    };
+    fetchMessages();
+  }, []);
 
   const userName = localStorage.getItem("username");
 
