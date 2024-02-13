@@ -38,7 +38,7 @@ model Message {
   authorId    String
   timestamp   DateTime @default(now())
   session   Session @relation(fields: [sessionId], references: [id])  
-  sessionId   String @unique
+  sessionId   String 
 }
 
 model Code {

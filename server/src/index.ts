@@ -42,32 +42,42 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log(`User connected! ${socket.id}`);
   socket.on("joinRoom", async (session) => {
+    console.log("activated");
     socket.join(session);
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`Socket ${socket.id} disconnected!`);
   });
 
   socket.on("sendMessage", async (data) => {
     //content --> message, userId, sessionId
+    console.log(data);
     const username = await prisma.user.findUnique({
       where: {
         id: data.userId,
       },
     });
+
+    console.log(username);
     const message = await prisma.message.create({
       data: {
-        content: data.content,
+        content: data.content.text,
         authorId: data.userId,
         sessionId: data.sessionId,
       },
     });
 
-    socket.to(data.sessionId).emit("message", {
+    console.log(data.sessionId);
+
+    const data2 = {
       message: message.content,
       time: message.timestamp,
-      sender: username,
-    });
+      sender: username?.username,
+    };
+
+    console.log(data2);
+
+    socket.emit("message", data2);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`Socket ${socket.id} disconnected!`);
   });
 });

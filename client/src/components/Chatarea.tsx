@@ -9,6 +9,7 @@ interface ChatMessage {
   timestamp: string;
 }
 
+//@ts-ignore
 const ChatArea: React.FC = ({ sessionId }) => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState<ChatMessage>({
@@ -17,16 +18,31 @@ const ChatArea: React.FC = ({ sessionId }) => {
     timestamp: "",
   });
 
+  const userName = localStorage.getItem("username");
+
   const socket = io("http://localhost:8000");
 
   socket.on("message", (data) => {
+    console.log(data);
+    const date = new Date(data.time);
+
+    // Format the date as per your requirements
+    const formattedDate = date.toLocaleString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+    });
     const newMessage: ChatMessage = {
       sender: data.sender,
       text: data.message,
-      timestamp: data.time,
+      timestamp: formattedDate,
     };
 
     setMessages([...messages, newMessage]);
+
+    console.log(messages);
   });
 
   const sendMessage = () => {
@@ -43,9 +59,7 @@ const ChatArea: React.FC = ({ sessionId }) => {
 
   return (
     <div className="flex flex-col min-h-screen bg-transparent pr-2" style={{}}>
-      <div className="w-full bg-white flex p-2 rounded-t-md text-xl font-body tracking-wider border-b-2 border-black">
-        Username
-      </div>
+      <div className="w-full bg-white flex p-2 rounded-t-md text-xl font-body tracking-wider border-b-2 border-black"></div>
       <div
         className="flex-1 overflow-y-scroll p-4"
         style={{
@@ -58,19 +72,24 @@ const ChatArea: React.FC = ({ sessionId }) => {
         {messages.map((message) => (
           <div
             className={`flex ${
-              message.sender === "" ? "justify-start" : "justify-end"
+              message.sender === userName ? "justify-end" : "justify-start"
             } mb-2`}
           >
             <div
               className={`min-w-48 rounded-md p-3 flex justify-between ${
-                message.sender === "Trafalgar"
+                message.sender === userName
                   ? "bg-white text-gray-800"
                   : "bg-green-100 text-green-800"
               }`}
             >
-              <div className="text-sm">{message.text}</div>
-              <div className="text-xs text-gray-500 mb-1">
-                {message.timestamp}
+              <div className="flex flex-col">
+                <span className="font-bold">
+                  {message.sender === userName ? "You" : userName}
+                </span>
+                <div className="text-sm mt-1">{message.text}</div>
+                <div className="text-xs text-gray-500 mb-1 mt-2">
+                  {message.timestamp}
+                </div>
               </div>
             </div>
           </div>
@@ -82,8 +101,14 @@ const ChatArea: React.FC = ({ sessionId }) => {
             type="text"
             placeholder="Type your message..."
             className="flex-1 p-2 border border-gray-300 rounded focus:outline-none"
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
+            value={newMessage.text}
+            onChange={(e) =>
+              setNewMessage({
+                sender: userName as string,
+                text: e.target.value,
+                timestamp: Date.now().toString(),
+              })
+            }
           />
           <button
             onClick={sendMessage}
