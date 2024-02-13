@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import chatbg from "../assets/chatbg5.jpg";
+import io from "socket.io-client";
 
 interface ChatMessage {
   id: number;
@@ -13,23 +14,12 @@ const ChatArea: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
 
+  const socket = io("http://localhost:8000");
+
   const sendMessage = () => {
     if (newMessage.trim() === "") return;
 
-    const sender = messages.length % 2 === 0 ? "Trafalgar" : "OtherPerson";
-
-    const newChatMessage: ChatMessage = {
-      id: messages.length + 1,
-      sender: sender,
-      text: newMessage.trim(),
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
-
-    setMessages([...messages, newChatMessage]);
-    setNewMessage("");
+    const data = socket.emit("sendMessage", () => {});
   };
 
   return (

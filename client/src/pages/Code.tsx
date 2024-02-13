@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OptionsBar from "../components/OptionsBar";
 import Editor from "@monaco-editor/react";
 import Session from "./Session";
+import io from "socket.io-client";
+import { useParams } from "react-router-dom";
 
 const Code = () => {
   const [userCode, setUserCode] = useState("");
@@ -12,9 +14,17 @@ const Code = () => {
   const [userOutput, setUserOutput] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const socket = io("http://localhost:8000");
+
+  const { sessionId } = useParams();
+
   const options = {
     fontSize: fontSize,
   };
+
+  useEffect(() => {
+    socket.emit("joinRoom", sessionId);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row min-w-full pt-2 bg-[#1E1E1E] pb-2">

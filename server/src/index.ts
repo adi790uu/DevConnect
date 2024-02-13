@@ -4,6 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoute";
 import sessionRouter from "./routes/sessionRoutes";
+import { Server } from "socket.io";
 dotenv.config();
 const prisma: PrismaClient = new PrismaClient();
 const app = express();
@@ -26,6 +27,29 @@ connectToDBcheck();
 app.use("/api/user", userRouter.userRouter);
 app.use("/api/session", sessionRouter);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
+});
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5174",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User connected! ${socket.id}`);
+  socket.on("joinRoom", (session) => {
+    socket.join(session);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`Socket ${socket.id} disconnected!`);
+  });
+
+  socket.on("sendMessage", async (data) => {
+    //content --> message, name
+  });
 });
