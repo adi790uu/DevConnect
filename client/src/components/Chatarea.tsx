@@ -26,7 +26,6 @@ const ChatArea: React.FC = ({ sessionId }) => {
     console.log(data);
     const date = new Date(data.time);
 
-    // Format the date as per your requirements
     const formattedDate = date.toLocaleString("en-US", {
       weekday: "long",
       month: "long",
@@ -41,8 +40,6 @@ const ChatArea: React.FC = ({ sessionId }) => {
     };
 
     setMessages([...messages, newMessage]);
-
-    console.log(messages);
   });
 
   const sendMessage = () => {
