@@ -116,7 +116,7 @@ const Home = () => {
                   onChange={(e: any) => setDesc(e.target.value)}
                 />
                 <div className="label">
-                  <span className="label-text text-lg">Session Id</span>
+                  <span className="label-text text-lg">Session Password</span>
                 </div>
                 <div className="w-full flex justify-between">
                   <input

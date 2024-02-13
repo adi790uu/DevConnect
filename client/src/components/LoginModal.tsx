@@ -1,7 +1,9 @@
 import { useState } from "react";
 import connector from "../connect";
+import { useAuth } from "../context/AuthContext";
 
 const LoginModal = () => {
+  const { setAuth } = useAuth();
   const [credentials, setcredentials] = useState({
     username: "",
     password: "",
@@ -15,6 +17,8 @@ const LoginModal = () => {
 
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("success", response.data.success);
+    if (response.data.success === "true") setAuth(false);
+    window.location.href = "/";
     console.log(response.data);
   };
 

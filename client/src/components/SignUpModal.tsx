@@ -11,6 +11,7 @@ const SignUpModal = () => {
     e.preventDefault();
 
     const response = await connector.post("/user/createuser", credentials);
+    console.log(response);
 
     if (response.data.alreadyExist) {
       alert("User already exists");

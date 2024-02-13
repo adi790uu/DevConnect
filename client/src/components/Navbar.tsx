@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { auth, toggleAuth } = useAuth();
+  const { auth } = useAuth();
+  console.log(auth);
   useEffect(() => {
     const success = localStorage.getItem("success");
-    if (success) {
-      toggleAuth();
-    }
+    console.log(success);
   }, [auth]);
 
   return (

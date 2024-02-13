@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 
 interface AuthContextProps {
   auth: boolean;
-  toggleAuth: () => void;
+  setAuth: (value: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -14,12 +14,8 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [auth, setAuth] = useState(true);
 
-  const toggleAuth = () => {
-    setAuth((auth) => !auth);
-  };
-
   return (
-    <AuthContext.Provider value={{ auth, toggleAuth }}>
+    <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   );
