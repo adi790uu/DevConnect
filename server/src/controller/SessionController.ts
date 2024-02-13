@@ -67,7 +67,29 @@ const joinSession = async (req: Request, res: Response) => {
   }
 };
 
+const getmessage = async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.body;
+
+    const session = await prisma.session.findUnique({
+      where: { id: sessionId },
+      include: { messages: true },
+    });
+
+    if (!session) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    const sessions = session?.messages;
+    res.status(201).json({ sessions });
+  } catch (error) {
+    console.error("Error retrieving messages:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 export = {
   createSession,
   joinSession,
+  getmessage,
 };
