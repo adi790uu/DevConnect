@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
-import OptionsBar from "../components/OptionsBar";
+import { useState } from "react";
 import Editor from "@monaco-editor/react";
 import ChatArea from "../components/Chatarea";
 import io from "socket.io-client";
 import { useParams } from "react-router-dom";
 import connector from "../connect";
+import Select from "react-select";
+import { FaPlayCircle } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
 
 const Code = () => {
   const [userCode, setUserCode] = useState("");
@@ -14,6 +16,35 @@ const Code = () => {
   const [userInput, setUserInput] = useState("");
   const [userOutput, setUserOutput] = useState("");
   const [loading, setLoading] = useState(false);
+  const languages = [
+    { value: "c", label: "C" },
+    { value: "cpp", label: "C++" },
+    { value: "python", label: "Python" },
+    { value: "java", label: "Java" },
+  ];
+
+  const clearOutput = () => {
+    setUserOutput("");
+    setUserInput("");
+  };
+
+  const themes = [
+    { value: "vs-dark", label: "Dark" },
+    { value: "light", label: "Light" },
+  ];
+
+  const compile = async () => {
+    setLoading(true);
+    const data = {
+      userCode: userCode,
+      lang: lang,
+      userInput: userInput,
+    };
+    const response = await connector.post("/compile", data);
+    setUserOutput(response.data.output.programOutput);
+    setLoading(false);
+    // console.log(response);
+  };
 
   const socket = io("http://localhost:8000");
 
@@ -49,16 +80,57 @@ const Code = () => {
         />
       </div>
       <div className="flex flex-col w-full ml-2 ">
-        <OptionsBar
-          lang={lang}
-          setLang={setLang}
-          theme={theme}
-          setTheme={setTheme}
-          fontSize={fontSize}
-          setFontSize={setFontSize}
-          setUserInput={setUserInput}
-          setUserOutput={setUserOutput}
-        />
+        <div className="flex justify-around font-body w-full p-4 bg-yellow-50 rounded-md pr-2">
+          <Select
+            id="select1"
+            options={languages}
+            value={lang}
+            onChange={(e) => setLang(e.value)}
+            placeholder={lang}
+          />
+          <Select
+            id="select2"
+            options={themes}
+            value={theme}
+            onChange={(e) => setTheme(e.value)}
+            placeholder={theme}
+          />
+          <button
+            onClick={compile}
+            className="flex flex-col justify-center items-center bg-transparent font-body tracking-widest"
+          >
+            <FaPlayCircle color="dark-green" size={32} />
+            RUN
+          </button>
+          <button
+            onClick={() => {
+              clearOutput();
+            }}
+            className="flex flex-col justify-center items-center font-body tracking-widest"
+          >
+            <MdDeleteOutline color="red" size={32} />
+            CLEAR
+          </button>
+          <div className="flex flex-col justify-center items-center">
+            <label className="mr-2 font-body tracking-widest">Font Size</label>
+            <div className="flex">
+              <input
+                className=""
+                type="range"
+                min="18"
+                max="30"
+                value={fontSize}
+                step="2"
+                onChange={(e) => {
+                  setFontSize(e.target.value);
+                }}
+              />
+              <p className="p-2 text-body text-sm bg-white ml-1 rounded-md">
+                {fontSize}
+              </p>
+            </div>
+          </div>
+        </div>
         <div className="w-full flex flex-row mt-5 min-h-screen">
           <div className="flex flex-col w-1/2">
             <h4 className="pl-1 font-body tracking-widest mb-1 text-white">

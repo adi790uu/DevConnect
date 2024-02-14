@@ -1,9 +1,9 @@
 import express from "express";
 const cors = require("cors");
-import { PrismaClient } from "@prisma/client";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRoute";
 import sessionRouter from "./routes/sessionRoutes";
+import { compileC, compileCpp, compileJava, compilePy } from "./Compile";
 import { Server } from "socket.io";
 dotenv.config();
 import prisma from "./config/prisma";
@@ -27,6 +27,35 @@ const connectToDBcheck = async () => {
     console.log("Error in connceting DB: ", error);
   }
 };
+
+app.post("/api/compile", async (req, res) => {
+  const { lang, userCode, userInput } = req.body;
+
+  try {
+    switch (lang) {
+      case "python":
+        const pyResult = compilePy(userCode, userInput);
+        res.status(200).json({ output: pyResult });
+        break;
+      case "cpp":
+        const cppResult = compileCpp(userCode, userInput);
+        res.status(200).json({ output: cppResult });
+        break;
+      case "java":
+        const javaResult = compileJava(userCode, userInput);
+        res.status(200).json({ output: javaResult });
+        break;
+      case "c":
+        const cResult = compileC(userCode, userInput);
+        res.status(200).json({ output: cResult });
+        break;
+      default:
+        return res.status(400).json({ error: "Unsupported language." });
+    }
+  } catch {
+    res.status(500).json({ error: "An error occurred during compilation." });
+  }
+});
 
 connectToDBcheck();
 
