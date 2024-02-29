@@ -26,6 +26,7 @@ const Code = () => {
   const clearOutput = () => {
     setUserOutput("");
     setUserInput("");
+    setUserCode("");
   };
 
   const themes = [
@@ -43,7 +44,7 @@ const Code = () => {
     const response = await connector.post("/compile", data);
     setUserOutput(response.data.output.programOutput);
     setLoading(false);
-    // console.log(response);
+    console.log(response);
   };
 
   const socket = io("http://localhost:8000");

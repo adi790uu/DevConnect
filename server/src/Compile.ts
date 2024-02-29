@@ -6,6 +6,8 @@ const path = require("path");
 export const compileCpp = (code, input) => {
   try {
     // Compile the C++ code
+    console.log(code);
+
     const compileResult = spawnSync(
       "g++",
       ["-x", "c++", "-o", "myprogram", "-"],
@@ -16,6 +18,8 @@ export const compileCpp = (code, input) => {
     );
 
     if (compileResult.status !== 0) {
+      console.log(compileResult);
+
       throw new Error("Compilation error");
     }
 
